@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>I Love You Heart Animation</title>
+  <title>I Love You Heart Animation | @coding.stella</title>
   
   <style>
     body {
@@ -42,32 +42,99 @@
     }
 
     @keyframes horizontal {
-      from { transform: translateX(0); }
-      to { transform: translateX(450px); }
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(450px);
+      }
     }
 
     @keyframes vertical {
-      0% { transform: translateY(180px); }
-      10% { transform: translateY(45px); }
-      15% { transform: translateY(4.5px); }
-      18% { transform: translateY(0); }
-      20% { transform: translateY(4.5px); }
-      22% { transform: translateY(34.61538px); }
-      24% { transform: translateY(64.28571px); }
-      25% { transform: translateY(112.5px); }
-      26% { transform: translateY(64.28571px); }
-      28% { transform: translateY(34.61538px); }
-      30% { transform: translateY(4.5px); }
-      32% { transform: translateY(0); }
-      35% { transform: translateY(4.5px); }
-      40% { transform: translateY(45px); }
-      50% { transform: translateY(180px); }
-      71% { transform: translateY(428.57143px); }
-      72.5% { transform: translateY(441.17647px); }
-      75% { transform: translateY(450px); }
-      77.5% { transform: translateY(441.17647px); }
-      79% { transform: translateY(428.57143px); }
-      100% { transform: translateY(180px); }
+      0% {
+        transform: translateY(180px);
+      }
+
+      10% {
+        transform: translateY(45px);
+      }
+
+      15% {
+        transform: translateY(4.5px);
+      }
+
+      18% {
+        transform: translateY(0);
+      }
+
+      20% {
+        transform: translateY(4.5px);
+      }
+
+      22% {
+        transform: translateY(34.61538px);
+      }
+
+      24% {
+        transform: translateY(64.28571px);
+      }
+
+      25% {
+        transform: translateY(112.5px);
+      }
+
+      26% {
+        transform: translateY(64.28571px);
+      }
+
+      28% {
+        transform: translateY(34.61538px);
+      }
+
+      30% {
+        transform: translateY(4.5px);
+      }
+
+      32% {
+        transform: translateY(0);
+      }
+
+      35% {
+        transform: translateY(4.5px);
+      }
+
+      40% {
+        transform: translateY(45px);
+      }
+
+      50% {
+        transform: translateY(180px);
+      }
+
+      71% {
+        transform: translateY(428.57143px);
+      }
+
+      72.5% {
+        transform: translateY(441.17647px);
+      }
+
+      75% {
+        transform: translateY(450px);
+      }
+
+      77.5% {
+        transform: translateY(441.17647px);
+      }
+
+      79% {
+        transform: translateY(428.57143px);
+      }
+
+      100% {
+        transform: translateY(180px);
+      }
     }
   </style>
 </head>
@@ -76,22 +143,10 @@
   <div id="ui"></div>
 
   <script>
-    // 1. URL se Name nikalna
+    // URL se name param get karna
     const urlParams = new URLSearchParams(window.location.search);
-    let encodedData = urlParams.get('n');
-    let targetName = "I Love You"; // Default name agar link me koi name na ho
+    const displayName = urlParams.get('n') || "Herosalman1";
 
-    if (encodedData) {
-        try {
-            // Decode the Base64 name
-            encodedData = encodedData.replace(/ /g, '+');
-            targetName = decodeURIComponent(escape(atob(encodedData)));
-        } catch (e) {
-            console.error("Decode error:", e);
-        }
-    }
-
-    // 2. Heart Animation create karna us name ke sath
     const ui = document.getElementById("ui");
     const totalItems = 100;
 
@@ -103,7 +158,7 @@
       love.innerHTML = `
         <div class="love_horizontal">
           <div class="love_vertical">
-            <div class="love_word">${targetName}</div>
+            <div class="love_word">${displayName}</div>
           </div>
         </div>
       `;
