@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generate Heart Link</title>
+  <title>Heart Animation Link Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
+
     body {
-      background: #000;
+      background: #050505;
       color: #fff;
       display: flex;
       justify-content: center;
@@ -20,94 +22,221 @@
       min-height: 100vh;
       padding: 20px;
     }
+
     .card {
-      background: #111;
-      border: 1px solid #ea80b0;
-      padding: 30px;
-      border-radius: 16px;
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(234, 128, 176, 0.4);
+      padding: 35px 25px;
+      border-radius: 20px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(234, 128, 176, 0.2);
+      box-shadow: 0 10px 30px rgba(234, 128, 176, 0.15);
+      backdrop-filter: blur(10px);
     }
+
     h2 {
       color: #ea80b0;
-      margin-bottom: 20px;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
     }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ea80b0;
-      background: #222;
-      color: #fff;
-      font-size: 1rem;
+
+    p.subtitle {
+      color: #a0a0a0;
+      font-size: 0.85rem;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      text-align: left;
       margin-bottom: 15px;
-      outline: none;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #ea80b0;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: 0.2s;
-    }
-    button:hover {
-      background: #f09bc1;
-    }
-    .output-box {
-      margin-top: 20px;
-      display: none;
-      word-break: break-all;
-    }
-    .link-display {
-      background: #222;
-      padding: 10px;
-      border-radius: 6px;
+
+    label {
       font-size: 0.85rem;
       color: #ea80b0;
-      margin-bottom: 10px;
-      border: 1px dashed #ea80b0;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(234, 128, 176, 0.3);
+      background: #111;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #ea80b0;
+      box-shadow: 0 0 12px rgba(234, 128, 176, 0.3);
+    }
+
+    .error-text {
+      color: #ff5555;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #ea80b0, #d45d93);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(234, 128, 176, 0.4);
+    }
+
+    .output-box {
+      margin-top: 25px;
+      display: none;
+      text-align: left;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .link-wrapper {
+      background: #111;
+      border: 1px dashed rgba(234, 128, 176, 0.5);
+      padding: 12px;
+      border-radius: 8px;
+      word-break: break-all;
+      font-size: 0.85rem;
+      color: #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      color: #ea80b0;
+      border: 1px solid #ea80b0;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.2s;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(234, 128, 176, 0.15);
+    }
+
+    .success-text {
+      color: #4cd137;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      text-align: center;
+      display: none;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>Heart Name Link Generator</h2>
-    <input type="text" id="nameInput" placeholder="Enter Name..." />
-    <button onclick="generateLink()">Generate Link</button>
+    <h2>Heart Animation Generator 💖</h2>
+    <p class="subtitle">Enter name to generate custom heart link</p>
+    
+    <div class="input-group">
+      <label for="nameInput">Name</label>
+      <input type="text" id="nameInput" placeholder="e.g. Herosalman1" autocomplete="off" />
+      <div id="errorMsg" class="error-text">Please enter a name first!</div>
+    </div>
+
+    <button class="btn-main" onclick="generateLink()">Generate Link ✨</button>
 
     <div class="output-box" id="outputBox">
-      <div class="link-display" id="linkDisplay"></div>
-      <button onclick="copyLink()">Copy Link</button>
+      <label>Your Link:</label>
+      <div class="link-wrapper" id="linkDisplay"></div>
+      
+      <div class="btn-group">
+        <button id="copyBtn" class="btn-secondary" onclick="copyLink()">Copy Link 📋</button>
+        <a id="previewBtn" class="btn-secondary" target="_blank">Open Preview 🚀</a>
+      </div>
+      <div id="successMsg" class="success-text">Link copied to clipboard! ✓</div>
     </div>
   </div>
 
   <script>
     function generateLink() {
-      const name = document.getElementById("nameInput").value.trim();
+      const nameInput = document.getElementById("nameInput");
+      const errorMsg = document.getElementById("errorMsg");
+      const outputBox = document.getElementById("outputBox");
+      const linkDisplay = document.getElementById("linkDisplay");
+      const previewBtn = document.getElementById("previewBtn");
+      const successMsg = document.getElementById("successMsg");
+      const copyBtn = document.getElementById("copyBtn");
+
+      const name = nameInput.value.trim();
+
+      // Clear previous status
+      errorMsg.style.display = "none";
+      successMsg.style.display = "none";
+      copyBtn.innerText = "Copy Link 📋";
+
       if (!name) {
-        alert("Please enter a name!");
+        errorMsg.style.display = "block";
+        outputBox.style.display = "none";
         return;
       }
+
+      // Detect current path and format URL
+      let baseUrl = window.location.href.split('?')[0].split('#')[0];
+      if (baseUrl.endsWith('index.html')) {
+        baseUrl = baseUrl.slice(0, -10);
+      }
+      if (!baseUrl.endsWith('/')) {
+        baseUrl += '/';
+      }
+
+      const finalUrl = `${baseUrl}surprise.html?n=${encodeURIComponent(name)}`;
       
-      const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-      const finalUrl = `${baseUrl}/surprise.html?n=${encodeURIComponent(name)}`;
-      
-      document.getElementById("linkDisplay").innerText = finalUrl;
-      document.getElementById("outputBox").style.display = "block";
+      linkDisplay.innerText = finalUrl;
+      previewBtn.href = finalUrl;
+      outputBox.style.display = "block";
     }
 
     function copyLink() {
       const linkText = document.getElementById("linkDisplay").innerText;
-      navigator.clipboard.writeText(linkText);
-      alert("Link Copied!");
+      const successMsg = document.getElementById("successMsg");
+      const copyBtn = document.getElementById("copyBtn");
+
+      navigator.clipboard.writeText(linkText).then(() => {
+        copyBtn.innerText = "Copied! ✓";
+        successMsg.style.display = "block";
+        setTimeout(() => {
+          successMsg.style.display = "none";
+        }, 3000);
+      });
     }
   </script>
 </body>
