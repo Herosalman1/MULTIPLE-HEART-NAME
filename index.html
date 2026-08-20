@@ -78,13 +78,6 @@
       box-shadow: 0 0 12px rgba(234, 128, 176, 0.3);
     }
 
-    .error-text {
-      color: #ff5555;
-      font-size: 0.8rem;
-      margin-top: 6px;
-      display: none;
-    }
-
     .btn-main {
       width: 100%;
       padding: 14px;
@@ -107,24 +100,12 @@
     .output-box {
       margin-top: 25px;
       display: none;
-      text-align: left;
       animation: fadeIn 0.4s ease-in-out;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    .link-wrapper {
-      background: #111;
-      border: 1px dashed rgba(234, 128, 176, 0.5);
-      padding: 12px;
-      border-radius: 8px;
-      word-break: break-all;
-      font-size: 0.85rem;
-      color: #e0e0e0;
-      margin-bottom: 12px;
     }
 
     .btn-group {
@@ -134,7 +115,7 @@
 
     .btn-secondary {
       flex: 1;
-      padding: 10px;
+      padding: 12px 10px;
       background: transparent;
       color: #ea80b0;
       border: 1px solid #ea80b0;
@@ -150,14 +131,6 @@
     .btn-secondary:hover {
       background: rgba(234, 128, 176, 0.15);
     }
-
-    .success-text {
-      color: #4cd137;
-      font-size: 0.8rem;
-      margin-top: 8px;
-      text-align: center;
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -168,43 +141,55 @@
     
     <div class="input-group">
       <label for="nameInput">fill-Up</label>
-      <input type="text" id="nameInput" placeholder="e.g. Herosalman1" autocomplete="off" />
-      <div id="errorMsg" class="error-text">Please enter a name first!</div>
+      <input type="text" id="nameInput" placeholder="e.g. Diya" autocomplete="off" />
     </div>
 
-    <button class="btn-main" onclick="generateLink()">Generate Link ✨</button>
+    <!-- Hidden URL storage -->
+    <input type="hidden" id="generatedUrl">
+
+    <button class="btn-main" id="genBtn" onclick="generateLink()">Generate Link ✨</button>
 
     <div class="output-box" id="outputBox">
-      <label>Your Link:</label>
-      <div class="link-wrapper" id="linkDisplay"></div>
-      
       <div class="btn-group">
         <button id="copyBtn" class="btn-secondary" onclick="copyLink()">Copy Link 📋</button>
-        <a id="previewBtn" class="btn-secondary" target="_blank">Open Preview 🚀</a>
+        <button class="btn-secondary" onclick="previewLink()" style="background: #ea80b0; color: #000;">Click To Preview 🚀</button>
       </div>
-      <div id="successMsg" class="success-text">Link copied to clipboard! ✓</div>
     </div>
   </div>
 
   <script>
+    // Title Case format (e.g., diya -> Diya)
+    function toTitleCase(str) {
+      return str.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
+        return match.toUpperCase();
+      });
+    }
+
+    // Auto convert typing to Title Case
+    document.getElementById('nameInput').addEventListener('input', function(e) {
+      let start = this.selectionStart;
+      let end = this.selectionEnd;
+      this.value = toTitleCase(this.value);
+      this.setSelectionRange(start, end); 
+    });
+
     function generateLink() {
       const nameInput = document.getElementById("nameInput");
-      const errorMsg = document.getElementById("errorMsg");
       const outputBox = document.getElementById("outputBox");
-      const linkDisplay = document.getElementById("linkDisplay");
-      const previewBtn = document.getElementById("previewBtn");
-      const successMsg = document.getElementById("successMsg");
-      const copyBtn = document.getElementById("copyBtn");
-
+      const genBtn = document.getElementById("genBtn");
       const name = nameInput.value.trim();
 
-      // Clear previous status
-      errorMsg.style.display = "none";
-      successMsg.style.display = "none";
-      copyBtn.innerText = "Copy Link 📋";
-
       if (!name) {
-        errorMsg.style.display = "block";
+        const oldText = genBtn.innerText;
+        genBtn.innerText = "Please enter a name! ⚠️";
+        genBtn.style.background = "#ff5555";
+        genBtn.style.color = "#fff";
+        
+        setTimeout(() => {
+          genBtn.innerText = oldText;
+          genBtn.style.background = "linear-gradient(135deg, #ea80b0, #d45d93)";
+          genBtn.style.color = "#000";
+        }, 2000);
         outputBox.style.display = "none";
         return;
       }
@@ -220,23 +205,35 @@
 
       const finalUrl = `${baseUrl}surprise.html?n=${encodeURIComponent(name)}`;
       
-      linkDisplay.innerText = finalUrl;
-      previewBtn.href = finalUrl;
+      // Save link securely in hidden input
+      document.getElementById("generatedUrl").value = finalUrl;
       outputBox.style.display = "block";
     }
 
     function copyLink() {
-      const linkText = document.getElementById("linkDisplay").innerText;
-      const successMsg = document.getElementById("successMsg");
+      const linkText = document.getElementById("generatedUrl").value;
       const copyBtn = document.getElementById("copyBtn");
 
       navigator.clipboard.writeText(linkText).then(() => {
         copyBtn.innerText = "Copied! ✓";
-        successMsg.style.display = "block";
+        copyBtn.style.background = "rgba(76, 209, 55, 0.2)";
+        copyBtn.style.borderColor = "#4cd137";
+        copyBtn.style.color = "#4cd137";
+        
         setTimeout(() => {
-          successMsg.style.display = "none";
-        }, 3000);
+          copyBtn.innerText = "Copy Link 📋";
+          copyBtn.style.background = "transparent";
+          copyBtn.style.borderColor = "#ea80b0";
+          copyBtn.style.color = "#ea80b0";
+        }, 2000);
       });
+    }
+
+    function previewLink() {
+      const linkText = document.getElementById("generatedUrl").value;
+      if (linkText) {
+        window.location.href = linkText;
+      }
     }
   </script>
 </body>
